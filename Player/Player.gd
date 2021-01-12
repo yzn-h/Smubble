@@ -1,9 +1,18 @@
 extends KinematicBody2D
 
 
+signal player_fired_bullet(bullet, position, direction)
+
+
 onready var body = $body
 onready var coyoty_timer = $CoyoteTimer
-onready var jump_buffer = $JumpBuffer
+onready var jump_buffer_timer = $JumpBuffer
+onready var end_of_gun = $Weapon/EndOfGun
+onready var gun_direction = $Weapon/GunDirection
+onready var weapon = $Weapon
+
+
+export (PackedScene) var Bullet
 
 
 const UP = Vector2(0, -1)
@@ -48,8 +57,8 @@ func coyoty_jump(was_on_floor):
 
 
 func jump_buffer():
-	if is_on_floor() and !jump_buffer.is_stopped():
-		jump_buffer.stop()
+	if is_on_floor() and !jump_buffer_timer.is_stopped():
+		jump_buffer_timer.stop()
 		jump()
 
 
@@ -70,7 +79,16 @@ func _input(event):
 			coyoty_timer.stop()
 			jump()
 		else:
-			jump_buffer.start()
+			jump_buffer_timer.start()
+	if event.is_action_pressed("shoot"):
+		shoot()
+
+
+func shoot():
+	var bullet_instance = Bullet.instance()
+	var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
+	emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
+	
 
 
 func jump():

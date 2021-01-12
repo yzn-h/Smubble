@@ -8,9 +8,14 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Bullet",
+"language": "GDScript",
+"path": "res://Weapon/Bullet.gd"
+} ]
 _global_script_class_icons={
-
+"Bullet": ""
 }
 
 [application]
@@ -18,13 +23,6 @@ _global_script_class_icons={
 config/name="Smubble"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-PluginSettings="*res://addons/github-integration/scripts/PluginSettings.gd"
-IconLoaderGithub="*res://addons/github-integration/scripts/IconLoaderGithub.gd"
-UserData="*res://addons/github-integration/scripts/user_data.gd"
-RestHandler="*res://addons/github-integration/scenes/RestHandler.tscn"
 
 [debug]
 
@@ -37,7 +35,7 @@ window/vsync/use_vsync=false
 
 [editor_plugins]
 
-enabled=PoolStringArray( "github-integration" )
+enabled=PoolStringArray(  )
 
 [importer_defaults]
 
