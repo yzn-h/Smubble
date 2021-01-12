@@ -19,6 +19,13 @@ config/name="Smubble"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+PluginSettings="*res://addons/github-integration/scripts/PluginSettings.gd"
+IconLoaderGithub="*res://addons/github-integration/scripts/IconLoaderGithub.gd"
+UserData="*res://addons/github-integration/scripts/user_data.gd"
+RestHandler="*res://addons/github-integration/scenes/RestHandler.tscn"
+
 [debug]
 
 settings/stdout/print_fps=true
@@ -27,6 +34,10 @@ settings/stdout/print_fps=true
 
 window/dpi/allow_hidpi=true
 window/vsync/use_vsync=false
+
+[editor_plugins]
+
+enabled=PoolStringArray( "github-integration" )
 
 [importer_defaults]
 
