@@ -17,3 +17,5 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="body"]
 scale = Vector2( 1, 2 )
 texture = ExtResource( 2 )
+
+[node name="CoyoteTimer" type="Timer" parent="."]

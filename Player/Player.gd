@@ -1,6 +1,8 @@
 extends KinematicBody2D
 
+
 onready var body = $body
+onready var coyoty_timer = $CoyoteTimer
 
 const UP = Vector2(0, -1)
 
@@ -23,12 +25,24 @@ func _ready():
 
 
 func _physics_process(delta):
+	if velocity.y >= 0 and is_jumping:
+		is_jumping = false
+	var was_on_floor = is_on_floor()
 	_get_input()
 	apply_gravity(delta)
 	velocity = move_and_slide(velocity, UP)
+	coyoty_jump(was_on_floor)
 
 func apply_gravity(delta):
-	velocity.y += gravity * delta
+	if coyoty_timer.is_stopped():
+		velocity.y += gravity * delta
+
+
+func coyoty_jump(was_on_floor):
+	if !is_on_floor() and was_on_floor and !is_jumping:
+		coyoty_timer.start()
+		velocity.y = 0
+
 
 func _get_input():
 	var move_direction = -int(Input.is_action_pressed("move_left")) + int(Input.is_action_pressed("move_right"))
@@ -43,7 +57,8 @@ func _get_h_weight():
 
 func _input(event):
 	if event.is_action_pressed("jump"):
-		if is_on_floor():
+		if is_on_floor() or !coyoty_timer.is_stopped():
+			coyoty_timer.stop()
 			jump()
 
 
