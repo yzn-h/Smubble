@@ -19,3 +19,5 @@ scale = Vector2( 1, 2 )
 texture = ExtResource( 2 )
 
 [node name="CoyoteTimer" type="Timer" parent="."]
+
+[node name="JumpBuffer" type="Timer" parent="."]
