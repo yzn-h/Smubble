@@ -7,6 +7,7 @@ signal player_fired_bullet(bullet, position, direction)
 onready var body = $body
 onready var coyoty_timer = $CoyoteTimer
 onready var jump_buffer_timer = $JumpBuffer
+onready var variable_jump_buffer = $VariableJumpBuffer
 onready var end_of_gun = $Weapon/EndOfGun
 onready var gun_direction = $Weapon/GunDirection
 onready var weapon = $Weapon
@@ -60,6 +61,9 @@ func jump_buffer():
 	if is_on_floor() and !jump_buffer_timer.is_stopped():
 		jump_buffer_timer.stop()
 		jump()
+		variable_jump_buffer.start()
+	if !variable_jump_buffer.is_stopped() and !Input.is_action_pressed("jump"):
+		variable_jump()
 
 
 func _get_input():
@@ -80,6 +84,8 @@ func _input(event):
 			jump()
 		else:
 			jump_buffer_timer.start()
+	if event.is_action_released("jump"):
+		variable_jump()
 	if event.is_action_pressed("shoot"):
 		shoot()
 
@@ -94,3 +100,8 @@ func shoot():
 func jump():
 	velocity.y = max_jump_velocity
 	is_jumping = true
+
+
+func variable_jump():
+	if velocity.y < min_jump_velocity:
+		velocity.y = min_jump_velocity

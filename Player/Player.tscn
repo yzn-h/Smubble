@@ -25,6 +25,8 @@ texture = ExtResource( 2 )
 
 [node name="JumpBuffer" type="Timer" parent="."]
 
+[node name="VariableJumpBuffer" type="Timer" parent="."]
+
 [node name="Weapon" type="Node2D" parent="."]
 script = ExtResource( 4 )
 __meta__ = {
