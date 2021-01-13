@@ -5,12 +5,16 @@ signal player_fired_bullet(bullet, position, direction)
 
 
 onready var body = $body
+
 onready var coyoty_timer = $CoyoteTimer
 onready var jump_buffer_timer = $JumpBuffer
 onready var variable_jump_buffer = $VariableJumpBuffer
+onready var attack_cool_down = $AttackCoolDown
+
 onready var end_of_gun = $Weapon/EndOfGun
 onready var gun_direction = $Weapon/GunDirection
 onready var weapon = $Weapon
+onready var animation_player = $Weapon/AnimationPlayer
 
 
 export (PackedScene) var Bullet
@@ -91,10 +95,12 @@ func _input(event):
 
 
 func shoot():
-	var bullet_instance = Bullet.instance()
-	var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
-	emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
-	
+	if attack_cool_down.is_stopped():
+		var bullet_instance = Bullet.instance()
+		var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
+		emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
+		attack_cool_down.start()
+		animation_player.play("muzzle_flash")
 
 
 func jump():
@@ -103,5 +109,5 @@ func jump():
 
 
 func variable_jump():
-	if velocity.y < min_jump_velocity:
+	if !velocity.y >= min_jump_velocity and is_jumping:
 		velocity.y = min_jump_velocity

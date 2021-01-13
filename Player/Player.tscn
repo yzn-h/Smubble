@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Player/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -7,6 +7,35 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 64 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "muzzle_flash"
+length = 0.05
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("MuzzleFlash:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MuzzleFlash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.15, 0.4 ), Vector2( 0.055, 0.45 ) ]
+}
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 1 )
@@ -27,6 +56,10 @@ texture = ExtResource( 2 )
 
 [node name="VariableJumpBuffer" type="Timer" parent="."]
 
+[node name="AttackCoolDown" type="Timer" parent="."]
+wait_time = 0.129
+one_shot = true
+
 [node name="Weapon" type="Node2D" parent="."]
 script = ExtResource( 4 )
 __meta__ = {
@@ -34,13 +67,23 @@ __meta__ = {
 }
 
 [node name="EndOfGun" type="Position2D" parent="Weapon"]
-position = Vector2( 68, 0 )
+position = Vector2( 78, 0 )
 
 [node name="GunDirection" type="Position2D" parent="Weapon"]
-position = Vector2( 72, 0 )
+position = Vector2( 85, 0 )
 
 [node name="Sprite" type="Sprite" parent="Weapon"]
 modulate = Color( 0.352941, 0.352941, 0.352941, 1 )
-position = Vector2( 22, 0 )
+position = Vector2( 41, 0 )
 scale = Vector2( 1, 0.1 )
 texture = ExtResource( 2 )
+
+[node name="MuzzleFlash" type="Sprite" parent="Weapon"]
+visible = false
+modulate = Color( 1, 0.360784, 0.360784, 1 )
+position = Vector2( 77, 0 )
+scale = Vector2( 0.055, 0.45 )
+texture = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Weapon"]
+anims/muzzle_flash = SubResource( 2 )
