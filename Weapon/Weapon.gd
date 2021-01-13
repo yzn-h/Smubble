@@ -5,7 +5,7 @@ var deg_for_bullet : float
 var vel : Vector2
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	get_weapon_deg()
 
 

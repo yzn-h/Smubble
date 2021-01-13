@@ -88,6 +88,10 @@ shoot={
 2d_physics/layer_1="player"
 2d_physics/layer_2="environment"
 
+[physics]
+
+common/physics_fps=120
+
 [rendering]
 
 quality/2d/use_nvidia_rect_flicker_workaround=true

@@ -18,12 +18,13 @@ onready var animation_player = $Weapon/AnimationPlayer
 
 
 export (PackedScene) var Bullet
+export (int) var move_speed = 400
 
+var health: int = 10
 
 const UP = Vector2(0, -1)
 
 var velocity = Vector2()
-export (int) var move_speed = 400
 var gravity
 var max_jump_velocity
 var min_jump_velocity
@@ -101,6 +102,11 @@ func shoot():
 		emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
 		attack_cool_down.start()
 		animation_player.play("muzzle_flash")
+
+
+func handle_hit():
+	health -= 1
+	print("player hit!", health)
 
 
 func jump():

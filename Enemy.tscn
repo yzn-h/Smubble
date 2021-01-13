@@ -1,16 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Player/Player.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://Weapon/Bullet.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Weapon/Weapon.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemy.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 64 )
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Enemy" type="KinematicBody2D"]
+position = Vector2( 508, 163 )
 script = ExtResource( 1 )
-Bullet = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -19,7 +17,7 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="body"]
 scale = Vector2( 1, 2 )
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 
@@ -30,5 +28,3 @@ texture = ExtResource( 2 )
 [node name="AttackCoolDown" type="Timer" parent="."]
 wait_time = 0.129
 one_shot = true
-
-[node name="Weapon" parent="." instance=ExtResource( 4 )]
