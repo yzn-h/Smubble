@@ -22,13 +22,22 @@ scale = Vector2( 1, 2 )
 texture = ExtResource( 2 )
 
 [node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 
 [node name="JumpBuffer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 
 [node name="VariableJumpBuffer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
 
 [node name="AttackCoolDown" type="Timer" parent="."]
 wait_time = 0.129
 one_shot = true
 
 [node name="Weapon" parent="." instance=ExtResource( 4 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true

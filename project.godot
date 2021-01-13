@@ -24,10 +24,6 @@ config/name="Smubble"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
-[debug]
-
-settings/stdout/print_fps=true
-
 [display]
 
 window/dpi/allow_hidpi=true

@@ -22,6 +22,9 @@ export (int) var move_speed = 400
 
 var health: int = 10
 
+var knockback = 625
+var knockback_velovity : Vector2
+
 const UP = Vector2(0, -1)
 
 var velocity = Vector2()
@@ -57,7 +60,7 @@ func apply_gravity(delta):
 
 
 func coyoty_jump(was_on_floor):
-	if !is_on_floor() and was_on_floor and !is_jumping:
+	if !is_on_floor() and was_on_floor and velocity.y >= 0:
 		coyoty_timer.start()
 		velocity.y = 0
 
@@ -102,7 +105,15 @@ func shoot():
 		emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
 		attack_cool_down.start()
 		animation_player.play("muzzle_flash")
+		print(direction)
+		set_knockback_velovity(direction)
+		
 
+
+func set_knockback_velovity(knockback_direction):
+	knockback_direction.x *= 3.5
+	knockback_velovity = knockback_direction * -knockback
+	velocity = knockback_velovity
 
 func handle_hit():
 	health -= 1
