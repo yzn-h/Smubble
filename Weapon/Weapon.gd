@@ -1,6 +1,14 @@
 extends Node2D
 
+signal weapon_fired(bullet, location, direction)
+
 onready var end_of_gun = $EndOfGun
+onready var gun_direction = $GunDirection
+onready var animation_player = $AnimationPlayer
+onready var attack_cool_down = $AttackCoolDown
+
+export (PackedScene) var Bullet
+
 var deg_for_bullet : float
 var vel : Vector2
 
@@ -16,7 +24,11 @@ func get_weapon_deg():
 	self.look_at(mouse_pos)
 	
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func shoot():
+	if attack_cool_down.is_stopped() and Bullet != null:
+		var bullet_instance = Bullet.instance()
+		var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
+		emit_signal("weapon_fired", bullet_instance, end_of_gun.global_position, direction)
+		attack_cool_down.start()
+		animation_player.play("muzzle_flash")
+		get_parent().set_knockback_velovity(direction)

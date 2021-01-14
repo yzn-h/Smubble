@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 
 signal player_fired_bullet(bullet, position, direction)
@@ -9,18 +10,14 @@ onready var body = $body
 onready var coyoty_timer = $CoyoteTimer
 onready var jump_buffer_timer = $JumpBuffer
 onready var variable_jump_buffer = $VariableJumpBuffer
-onready var attack_cool_down = $AttackCoolDown
 
-onready var end_of_gun = $Weapon/EndOfGun
-onready var gun_direction = $Weapon/GunDirection
 onready var weapon = $Weapon
-onready var animation_player = $Weapon/AnimationPlayer
+
+onready var health_stat = $Health
 
 
-export (PackedScene) var Bullet
 export (int) var move_speed = 400
 
-var health: int = 10
 
 var knockback = 625
 var knockback_velovity : Vector2
@@ -42,6 +39,7 @@ func _ready():
 	gravity = 2 * max_jump_height / pow(jump_duration, 2)
 	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
+	weapon.connect("weapon_fired", self, "shoot")
 
 
 func _physics_process(delta):
@@ -95,29 +93,21 @@ func _input(event):
 	if event.is_action_released("jump"):
 		variable_jump()
 	if event.is_action_pressed("shoot"):
-		shoot()
+		weapon.shoot()
 
-
-func shoot():
-	if attack_cool_down.is_stopped():
-		var bullet_instance = Bullet.instance()
-		var direction = (gun_direction.global_position - end_of_gun.global_position).normalized()
-		emit_signal("player_fired_bullet", bullet_instance, end_of_gun.global_position, direction)
-		attack_cool_down.start()
-		animation_player.play("muzzle_flash")
-		print(direction)
-		set_knockback_velovity(direction)
-		
+ 
+func shoot(bullet_instance, location: Vector2, direction: Vector2):
+	emit_signal("player_fired_bullet", bullet_instance, location, direction)
 
 
 func set_knockback_velovity(knockback_direction):
-	knockback_direction.x *= 3.5
+	knockback_direction.x *= 2.75
 	knockback_velovity = knockback_direction * -knockback
 	velocity = knockback_velovity
 
 func handle_hit():
-	health -= 1
-	print("player hit!", health)
+	health_stat.health -= 1
+	print("player hit!", health_stat.health)
 
 
 func jump():

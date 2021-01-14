@@ -1,6 +1,9 @@
 extends KinematicBody2D
 
 
+onready var health_stat = $Health
+
+
 export (int) var move_speed = 400
 
 
@@ -26,9 +29,9 @@ func _ready():
 
 
 func handle_hit():
-	health -= 1
-	print("Enemy hit!", health)
-	if health <= 0:
+	health_stat.health -= 1
+	print("Enemy hit!", health_stat.health)
+	if health_stat.health <= 0:
 		die()
 
 
